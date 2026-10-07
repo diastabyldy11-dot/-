@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выполненные задачи — Deadline Boss</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="section-page section-completed" data-page="completed">
+    <header class="section-header">
+        <a class="section-brand" href="index.html">Deadline Boss</a>
+        <div class="section-header-actions">
+            <span id="date"></span>
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Переключить тему">☼</button>
+            <button class="header-btn" onclick="showProfile()">👤 Профиль</button>
+        </div>
+    </header>
+
+    <div class="section-shell">
+        <aside class="section-sidebar">
+            <a href="index.html">Главная</a>
+            <a href="tasks.html">Все задачи</a>
+            <a href="overdue.html">Просроченные</a>
+            <a class="active" href="completed.html">Выполненные</a>
+            <a href="support.html">Поддержка сайт</a>
+        </aside>
+
+        <main class="section-content">
+            <div class="section-hero">
+                <div>
+                    <span class="section-kicker">Твой прогресс</span>
+                    <h1>Выполненные</h1>
+                    <p>Поздравляем! Посмотрите, какие задачи вы уже завершили.</p>
+                </div>
+                <div class="completed-badge"><span id="completed">0</span> завершено</div>
+            </div>
+
+            <section class="section-stat-row">
+                <div class="section-stat"><span>Завершено</span><strong id="completedStat">0</strong></div>
+                <div class="section-stat"><span>Всего задач</span><strong id="total">0</strong></div>
+                <div class="section-stat"><span>Прогресс</span><strong id="progressStat">0%</strong></div>
+            </section>
+
+            <section class="section-list-panel">
+                <div class="section-list-heading">
+                    <h2>Завершённые задачи</h2>
+                    <span>Отмеченные выполненными</span>
+                </div>
+                <div id="taskList"></div>
+            </section>
+        </main>
+    </div>
+
+    <div class="modal hidden" id="profileModal">
+        <div class="modal-box profile-box">
+            <button class="close" onclick="closeProfileModal()">×</button>
+            <h2>Профиль</h2>
+            <label>Имя</label><input id="profileName" placeholder="Введите имя">
+            <label>Email</label><input id="profileEmail" type="email" placeholder="name@example.com">
+            <label>Школа / класс</label><input id="profileSchool" placeholder="Например: 10А">
+            <div class="modal-buttons">
+                <button class="cancel" onclick="closeProfileModal()">Отмена</button>
+                <button class="save" onclick="saveProfile()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

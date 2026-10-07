@@ -29,18 +29,12 @@
         <button class="active" onclick="showSection('all', this)">
             Главная
         </button>
-        <button onclick="showSection('active', this)">
-            Все задачи
-        </button>
-        <button onclick="showSection('completed', this)">
-            Выполненные
-        </button>
-        <button onclick="showSection('overdue', this)">
-            Просроченные
-        </button>
-        <button onclick="openSupportModal()">
+        <a class="page-nav-link" href="tasks.html">Все задачи</a>
+        <a class="page-nav-link" href="overdue.html">Просроченные</a>
+        <a class="page-nav-link" href="completed.html">Выполненные</a>
+        <a class="page-nav-link support-link" href="support.html">
             Поддержка сайта
-        </button>
+        </a>
     </aside>
 
     <!-- КОНТЕНТ -->
@@ -59,23 +53,23 @@
 
         <!-- СТАТИСТИКА -->
         <section class="cards">
-            <div class="card" onclick="showSection('all')">
+            <a class="card" href="tasks.html">
                 <h3>ЗАДАЧИ</h3>
                 <div class="card-number" id="total">0</div>
                 <p>всего задач</p>
-            </div>
+            </a>
 
-            <div class="card" onclick="showSection('overdue')">
+            <a class="card" href="overdue.html">
                 <h3>ПРОСРОЧЕННЫЕ</h3>
                 <div class="card-number" id="overdue">0</div>
                 <p>требуют внимания</p>
-            </div>
+            </a>
 
-            <div class="card" onclick="showSection('completed')">
+            <a class="card" href="completed.html">
                 <h3>ВЫПОЛНЕННЫЕ</h3>
                 <div class="card-number" id="completed">0</div>
                 <p>задач завершено</p>
-            </div>
+            </a>
         </section>
 
         <section class="stats-panel">
@@ -103,6 +97,26 @@
             </div>
         </section>
 
+        <section class="stats-panel friends-panel">
+            <div class="panel-title">
+                <h2>Прогресс друзей</h2>
+                <p>Сравнение выполненных задач</p>
+            </div>
+            <form class="friend-form" id="friendForm">
+                <div>
+                    <label for="friendName">Имя друга</label>
+                    <input id="friendName" name="name" type="text" maxlength="40" placeholder="Введите имя" required>
+                </div>
+                <div>
+                    <label for="friendProgress">Прогресс, %</label>
+                    <input id="friendProgress" name="progress" type="number" min="0" max="100" value="0" required>
+                </div>
+                <button class="friend-add-button" type="submit">Добавить друга</button>
+            </form>
+            <p class="friend-status" id="friendStatus" role="status" aria-live="polite"></p>
+            <div class="friend-comparison" id="friendComparison" aria-live="polite"></div>
+        </section>
+
         <!-- ЗАДАЧИ + ТАЙМЕР -->
         <section class="workspace">
             <div class="tasks">
@@ -119,10 +133,24 @@
                 <h2 id="timerTask">
                     Выберите задачу
                 </h2>
-                <div class="timer-circle">
+                <button
+                    type="button"
+                    class="timer-circle"
+                    onclick="openTimerSettings()"
+                    aria-label="Открыть настройки длительности таймера"
+                    title="Нажмите, чтобы выбрать время"
+                >
                     <span class="timer-time" id="timer">
                         25:00
                     </span>
+                </button>
+
+                <div class="timer-settings" id="timerSettings">
+                    <label for="timerDuration">Введите время в минутах</label>
+                    <div class="timer-settings-row">
+                        <input id="timerDuration" type="number" min="1" max="240" value="25" inputmode="numeric" aria-label="Количество минут">
+                        <button type="button" onclick="applyTimerDuration()">Применить</button>
+                    </div>
                 </div>
 
                 <div class="timer-buttons">
@@ -171,6 +199,24 @@
                     <p>«Простой и понятный интерфейс. Таймер реально помогает вовремя заканчивать задания.»</p>
                     <span>— Максим</span>
                 </div>
+                <div id="userReviews" aria-live="polite"></div>
+                <form class="review-form" id="reviewForm">
+                    <h3>Оставить отзыв</h3>
+                    <label for="reviewName">Ваше имя</label>
+                    <input id="reviewName" name="name" type="text" maxlength="40" placeholder="Введите имя" required>
+                    <label for="reviewRating">Оценка</label>
+                    <select id="reviewRating" name="rating">
+                        <option value="5">5 звезд</option>
+                        <option value="4">4 звезды</option>
+                        <option value="3">3 звезды</option>
+                        <option value="2">2 звезды</option>
+                        <option value="1">1 звезда</option>
+                    </select>
+                    <label for="reviewMessage">Отзыв</label>
+                    <textarea id="reviewMessage" name="message" maxlength="300" rows="3" placeholder="Поделитесь впечатлением..." required></textarea>
+                    <button class="review-submit" type="submit">Опубликовать</button>
+                    <p class="review-status" id="reviewStatus" role="status" aria-live="polite"></p>
+                </form>
             </div>
         </section>
 

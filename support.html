@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Страница поддержки Deadline Boss">
+    <title>Поддержка сайта — Deadline Boss</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="support-page">
+    <header class="support-header">
+        <a class="support-logo" href="index.html">
+            <span>←</span> Deadline Boss
+        </a>
+        <a class="support-home-link" href="index.html">Вернуться на главную</a>
+    </header>
+
+    <main class="support-main">
+        <section class="support-hero">
+            <div class="support-eyebrow">Служба поддержки</div>
+            <h1>Поможем решить<br>ваш вопрос.</h1>
+            <p>
+                Напишите, что случилось, и наши специалисты помогут быстро
+                разобраться в работе сайта.
+            </p>
+        </section>
+
+        <div class="support-layout">
+            <section class="support-contact-card" aria-label="Контакты поддержки">
+                <div class="support-card-heading">
+                    <span class="support-icon">?</span>
+                    <div>
+                        <h2>Контакты</h2>
+                        <p>Мы отвечаем в течение рабочего дня.</p>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <span class="contact-label">Email</span>
+                    <a href="mailto:dastana2020@mail.ru">dastana2020@mail.ru</a>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-label">Режим работы</span>
+                    <strong>Пн–Пт, 9:00–18:00</strong>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-label">Ответственность</span>
+                    <p>Помогаем с задачами, профилем и интерфейсом сайта.</p>
+                </div>
+            </section>
+
+            <section class="support-form-card">
+                <div class="support-form-heading">
+                    <h2>Написать обращение</h2>
+                    <p>Заполните форму, чтобы мы могли связаться с вами.</p>
+                </div>
+
+                <form id="supportForm">
+                    <div class="form-row">
+                        <label for="supportName">Ваше имя</label>
+                        <input id="supportName" name="name" type="text" autocomplete="name" placeholder="Введите имя" required>
+                    </div>
+
+                    <div class="form-row">
+                        <label for="supportEmail">Email для ответа</label>
+                        <input id="supportEmail" name="email" type="email" autocomplete="email" placeholder="name@example.com" required>
+                    </div>
+
+                    <div class="form-row">
+                        <label for="supportTopic">Тема обращения</label>
+                        <select id="supportTopic" name="topic">
+                            <option value="bug">Ошибка в работе</option>
+                            <option value="design">Дизайн / интерфейс</option>
+                            <option value="question">Вопрос по функционалу</option>
+                            <option value="other">Другое</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <label for="supportMessage">Сообщение</label>
+                        <textarea id="supportMessage" name="message" rows="6" placeholder="Опишите проблему или вопрос..." required></textarea>
+                    </div>
+
+                    <button class="support-submit" type="submit">
+                        Отправить обращение
+                    </button>
+                    <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <footer class="support-footer">
+        <span>Deadline Boss</span>
+        <a href="index.html">Главная</a>
+    </footer>
+
+    <script>
+        const supportForm = document.getElementById("supportForm");
+        const formStatus = document.getElementById("formStatus");
+        const supportAddress = "dastana2020@mail.ru";
+
+        supportForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(supportForm);
+            const topic = formData.get("topic");
+            const topicNames = {
+                bug: "Ошибка в работе",
+                design: "Дизайн / интерфейс",
+                question: "Вопрос по функционалу",
+                other: "Другое"
+            };
+
+            const request = {
+                name: String(formData.get("name") || "").trim(),
+                email: String(formData.get("email") || "").trim(),
+                topic: topicNames[topic] || "Другое",
+                message: String(formData.get("message") || "").trim(),
+                sentAt: new Date().toISOString()
+            };
+
+            const requests = JSON.parse(localStorage.getItem("deadlineBossSupportRequests") || "[]");
+            requests.push(request);
+            localStorage.setItem("deadlineBossSupportRequests", JSON.stringify(requests));
+
+            const subject = encodeURIComponent(`Поддержка Deadline Boss: ${request.topic}`);
+            const body = encodeURIComponent(`Имя: ${request.name}\nEmail для ответа: ${request.email}\nТема: ${request.topic}\n\nСообщение:\n${request.message}`);
+            window.location.href = `mailto:${supportAddress}?subject=${subject}&body=${body}`;
+
+            formStatus.textContent = "Почтовая программа откроется с подготовленным обращением. Нажмите «Отправить» в письме.";
+            formStatus.classList.add("success");
+            supportForm.reset();
+        });
+    </script>
+</body>
+</html>
