@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deadline Boss</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        Deadline Boss
+    </div>
+    <div class="header-right">
+        <span id="date"></span>
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Переключить тему">
+            ☼
+        </button>
+        <button class="header-btn" onclick="showProfile()">
+            👤 Профиль
+        </button>
+    </div>
+</header>
+
+<div class="container">
+    <!-- МЕНЮ -->
+    <aside class="sidebar">
+        <button class="active" onclick="showSection('all', this)">
+            Главная
+        </button>
+        <button onclick="showSection('active', this)">
+            Все задачи
+        </button>
+        <button onclick="showSection('completed', this)">
+            Выполненные
+        </button>
+        <button onclick="showSection('overdue', this)">
+            Просроченные
+        </button>
+        <button onclick="openSupportModal()">
+            Поддержка сайта
+        </button>
+    </aside>
+
+    <!-- КОНТЕНТ -->
+    <main class="content">
+        <div class="title-row">
+            <div>
+                <h1 id="pageTitle">Главная</h1>
+                <p>
+                    Планируй задачи, следи за сроками и побеждай дедлайны.
+                </p>
+            </div>
+            <button class="add-btn" onclick="openModal()">
+                + Добавить задачу
+            </button>
+        </div>
+
+        <!-- СТАТИСТИКА -->
+        <section class="cards">
+            <div class="card" onclick="showSection('all')">
+                <h3>ЗАДАЧИ</h3>
+                <div class="card-number" id="total">0</div>
+                <p>всего задач</p>
+            </div>
+
+            <div class="card" onclick="showSection('overdue')">
+                <h3>ПРОСРОЧЕННЫЕ</h3>
+                <div class="card-number" id="overdue">0</div>
+                <p>требуют внимания</p>
+            </div>
+
+            <div class="card" onclick="showSection('completed')">
+                <h3>ВЫПОЛНЕННЫЕ</h3>
+                <div class="card-number" id="completed">0</div>
+                <p>задач завершено</p>
+            </div>
+        </section>
+
+        <section class="stats-panel">
+            <div class="panel-title">
+                <h2>Статистика</h2>
+                <p>Сводка по вашему прогрессу</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span>Активные</span>
+                    <strong id="activeStat">0</strong>
+                </div>
+                <div class="stat-box">
+                    <span>Выполнено</span>
+                    <strong id="doneStat">0%</strong>
+                </div>
+                <div class="stat-box">
+                    <span>Сроки</span>
+                    <strong id="deadlineStat">0</strong>
+                </div>
+                <div class="stat-box accent">
+                    <span>Прогресс</span>
+                    <strong id="progressStat">0%</strong>
+                </div>
+            </div>
+        </section>
+
+        <!-- ЗАДАЧИ + ТАЙМЕР -->
+        <section class="workspace">
+            <div class="tasks">
+                <div class="panel-title">
+                    <h2>Список задач</h2>
+                    <p>Твои текущие задачи и дедлайны</p>
+                </div>
+                <div id="taskList"></div>
+            </div>
+
+            <!-- ТАЙМЕР -->
+            <div class="timer">
+                <p><b>ТАЙМЕР</b></p>
+                <h2 id="timerTask">
+                    Выберите задачу
+                </h2>
+                <div class="timer-circle">
+                    <span class="timer-time" id="timer">
+                        25:00
+                    </span>
+                </div>
+
+                <div class="timer-buttons">
+                    <button class="start" onclick="startTimer()">
+                        Старт
+                    </button>
+                    <button class="pause" onclick="pauseTimer()">
+                        Пауза
+                    </button>
+                    <button class="reset" onclick="resetTimer()">
+                        Сбросить
+                    </button>
+                </div>
+
+                <p style="color:#777;font-size:12px;">
+                    Таймер помогает сосредоточиться на одной задаче.
+                </p>
+            </div>
+        </section>
+
+        <section class="info-grid">
+            <div class="info-card guide-card">
+                <div class="panel-title compact">
+                    <h2>Как пользоваться</h2>
+                </div>
+                <ol>
+                    <li>Нажмите кнопку «Добавить задачу».</li>
+                    <li>Укажите название, дедлайн и приоритет.</li>
+                    <li>Добавьте чек-лист для важных шагов.</li>
+                    <li>Выберите задачу и включите таймер.</li>
+                    <li>Отмечайте выполненное и следите за прогрессом.</li>
+                </ol>
+            </div>
+
+            <div class="info-card reviews-card">
+                <div class="panel-title compact">
+                    <h2>Отзывы</h2>
+                </div>
+                <div class="review-item">
+                    <div class="review-stars">★★★★★</div>
+                    <p>«Очень удобно для школы. Помогает не забывать дедлайны и держать фокус.»</p>
+                    <span>— Алина</span>
+                </div>
+                <div class="review-item">
+                    <div class="review-stars">★★★★★</div>
+                    <p>«Простой и понятный интерфейс. Таймер реально помогает вовремя заканчивать задания.»</p>
+                    <span>— Максим</span>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <b>Deadline Boss</b> — твой помощник против дедлайнов.
+            Задачи сохраняются автоматически.
+        </footer>
+    </main>
+</div>
+
+<!-- МОДАЛЬНОЕ ОКНО -->
+<div class="modal hidden" id="modal">
+    <div class="modal-box">
+        <button class="close" onclick="closeModal()">
+            ×
+        </button>
+
+        <h2>Добавить задачу</h2>
+        <p style="color:#777;">
+            Заполни информацию о новой задаче.
+        </p>
+
+        <label>Название задачи *</label>
+        <input id="taskTitle" placeholder="Например: сделать презентацию">
+
+        <label>Описание</label>
+        <textarea id="taskDescription" placeholder="Что нужно сделать?"></textarea>
+
+        <label>Приоритет</label>
+        <select id="taskPriority">
+            <option value="high">Высокий</option>
+            <option value="medium" selected>Средний</option>
+            <option value="low">Низкий</option>
+        </select>
+
+        <label>Дедлайн *</label>
+        <input type="datetime-local" id="taskDeadline">
+
+        <div class="subtasks-block">
+            <div class="subtasks-header">
+                <label>Чек-лист</label>
+                <button type="button" class="add-subtask-btn" onclick="addSubtaskInput()">
+                    +
+                </button>
+            </div>
+            <div id="subtaskList"></div>
+        </div>
+
+        <div class="error" id="error"></div>
+
+        <div class="modal-buttons">
+            <button class="cancel" onclick="closeModal()">
+                Отмена
+            </button>
+            <button class="save" onclick="addTask()">
+                Добавить
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="modal hidden" id="profileModal">
+    <div class="modal-box profile-box">
+        <button class="close" onclick="closeProfileModal()">
+            ×
+        </button>
+
+        <h2>Профиль</h2>
+        <p style="color:#777;">
+            Настройте данные пользователя.
+        </p>
+
+        <label>Имя</label>
+        <input id="profileName" placeholder="Введите имя">
+
+        <label>Email</label>
+        <input id="profileEmail" type="email" placeholder="name@example.com">
+
+        <label>Школа / класс</label>
+        <input id="profileSchool" placeholder="Например: 10А">
+
+        <div class="modal-buttons">
+            <button class="cancel" onclick="closeProfileModal()">
+                Отмена
+            </button>
+            <button class="save" onclick="saveProfile()">
+                Сохранить
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="modal hidden" id="supportModal">
+    <div class="modal-box support-box">
+        <button class="close" onclick="closeSupportModal()">
+            ×
+        </button>
+
+        <h2>Поддержка сайта</h2>
+        <p style="color:#777;">
+            Напишите, что случилось, и мы поможем быстро.
+        </p>
+
+        <label>Ваше имя</label>
+        <input id="supportName" placeholder="Введите имя">
+
+        <label>Email для ответа</label>
+        <input id="supportEmail" type="email" placeholder="name@example.com">
+
+        <label>Тема</label>
+        <select id="supportTopic">
+            <option value="bug">Ошибка в работе</option>
+            <option value="design">Дизайн / интерфейс</option>
+            <option value="question">Вопрос по функционалу</option>
+            <option value="other">Другое</option>
+        </select>
+
+        <label>Сообщение</label>
+        <textarea id="supportMessage" placeholder="Опишите проблему или вопрос..."></textarea>
+
+        <div class="error" id="supportError"></div>
+
+        <div class="modal-buttons">
+            <button class="cancel" onclick="closeSupportModal()">
+                Отмена
+            </button>
+            <button class="save" onclick="sendSupportMessage()">
+                Отправить
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
